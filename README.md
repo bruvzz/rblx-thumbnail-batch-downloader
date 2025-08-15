@@ -1,38 +1,57 @@
-# Roblox Thumbnail Batch Downloader – Starter Project (v0.5)
+# Roblox Thumbnail Batch Downloader
+
+Batch download Roblox thumbnails with advanced filename templates, folder organization, and concurrency control.
 
 ## Features
-- Bulk downloads Roblox thumbnails given a list of asset IDs.
-- Accepts `--ids` or `--input file`.
-- Supports sizes like `150x150`, `420x420`, `720x720`.
-- Progress bar, retries, output folder control.
-- Optional `--resize`, `--watermark`, and `--meta` export.
-- Retrieves **asset name** and **type** from Roblox API.
-- Organizes downloads into folders by asset type (Models, Decals, Audio, etc.).
-- Filenames can be customized with advanced templates using placeholders.
-- Placeholders include:
-  - `{id}` – asset ID
-  - `{name}` – asset name
-  - `{type}` – asset type
-  - `{ext}` – file extension
-  - `{date}` – current date (YYYY-MM-DD)
-- `--template` flag allows you to specify filename format (e.g., `--template "{type}/{name}-{id}.{ext}"`).
-- `--flat` option skips subfolder organization and stores all files in the main output directory.
-- Concurrency control with `--concurrency <number>` to limit simultaneous requests.
-- Automatic rate-limit handling with exponential backoff.
+- Bulk download thumbnails by asset IDs (`--ids` or `--input` file)
+- Supports sizes like `150x150`, `420x420`, `720x720`
+- Optional image resizing and watermarking
+- Fetches **asset name** and **type** from Roblox API
+- Organizes downloads by asset type (Models, Decals, Audio, etc.)
+- Advanced **filename templates** with placeholders: `{id}`, `{name}`, `{type}`, `{ext}`, `{date}`
+- `--flat` option to skip folder organization
+- Concurrency control with `--concurrency`
+- Automatic rate-limit handling and retries
+- Optional metadata JSON export (`--meta`)
+
+## Installation
+```bash
+git clone <your-repo-url>
+npm install
+npm link  # optional, makes `rthumbs` globally available
+```
 
 ## Usage
 ```bash
-npm i
-npm link  # optional: global command
-
-# Example with type folders and custom filename template
+# Basic usage with a file of IDs
 echo 1818 > ids.txt
-rthumbs --input ids.txt --size 420x420 --format png --out thumbnails --template "{type}/{name}-{id}.{ext}" --meta --concurrency 5
+rthumbs --input ids.txt --size 420x420 --format png --out thumbnails --meta
 
-# Example with flat structure and date in filename
-rthumbs --input ids.txt --size 420x420 --format png --out thumbnails --flat --template "{name}-{date}.{ext}" --concurrency 3
+# Custom filename template and type folders
+rthumbs --input ids.txt --size 420x420 --format png --template "{type}/{name}-{id}.{ext}" --out thumbnails
+
+# Flat structure and concurrency limit
+rthumbs --input ids.txt --size 420x420 --format png --flat --template "{name}-{date}.{ext}" --concurrency 3
 ```
 
-## Next Steps
-- Add interactive mode for selecting options without command flags.
-- Support downloading multiple thumbnail sizes for each asset in one run.
+## CLI Options
+| Option | Description |
+|--------|-------------|
+| `--ids` | Comma-separated Roblox asset IDs |
+| `--input` | Path to a text file containing asset IDs |
+| `--size` | Thumbnail size (default: 420x420) |
+| `--format` | Thumbnail format: png, jpg, jpeg (default: png) |
+| `--out` | Output folder (default: thumbnails) |
+| `--template` | Filename template with placeholders |
+| `--flat` | Disable type-based folder organization |
+| `--meta` | Export metadata JSON |
+| `--concurrency` | Number of simultaneous downloads (default: 5) |
+
+## Release Notes (v0.5.0)
+- Advanced filename templates: `{id}`, `{name}`, `{type}`, `{ext}`, `{date}`
+- `--flat` option to keep all files in the main folder
+- Concurrency control and automatic rate-limit handling
+- Sanitized filenames to prevent illegal characters
+
+## License
+MIT
