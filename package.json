@@ -1,0 +1,19 @@
+{
+  "name": "roblox-thumbnail-batch-downloader",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "bin": {
+    "rthumbs": "./src/index.js"
+  },
+  "scripts": {
+    "start": "node ./src/index.js",
+    "dev": "node ./src/index.js --help"
+  },
+  "dependencies": {
+    "cli-progress": "^3.12.0",
+    "fs-extra": "^11.2.0",
+    "yargs": "^17.7.2",
+    "sharp": "^0.33.4"
+  }
+}
