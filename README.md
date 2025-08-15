@@ -1,43 +1,29 @@
-# Roblox Thumbnail Batch Downloader
+# Roblox Thumbnail Batch Downloader – Starter Project (v0.3)
 
-Batch-download thumbnails for Roblox assets using the official thumbnails API.
-
-## Features (v0.1)
-- Input IDs via `--ids` (comma-separated) or `--input <file>` (one ID per line)
-- Choose sizes: `150x150`, `420x420`, `720x720` (or the closest available)
-- PNG/JPEG output
-- Output directory control
-- Progress bar and retry-on-fail
-- Optional resize and text watermark (via `sharp`)
-- Optional metadata export (`thumbnails.json`)
-
-> **Note:** In v0.1 we prioritize reliable downloads. Asset name/type lookups will be added in v0.2.
-
-## Install
-```bash
-npm i
-npm link    # optional, to install the CLI globally as `rthumbs`
-```
+## Features
+- Bulk downloads Roblox thumbnails given a list of asset IDs.
+- Accepts `--ids` or `--input file`.
+- Supports sizes like `150x150`, `420x420`, `720x720`.
+- Progress bar, retries, output folder control.
+- Optional `--resize`, `--watermark`, and `--meta` export.
+- Retrieves **asset name** and **type** from Roblox API.
+- Organizes downloads into folders by asset type (Models, Decals, Audio, etc.).
+- Filenames use `{id}-{name}.{ext}`.
+- **NEW:** `--flat` option skips subfolder organization and stores all files in the main output directory.
 
 ## Usage
 ```bash
-# From a list file
-rthumbs --input ids.txt --size 420x420 --format png --out thumbnails
+npm i
+npm link  # optional: global command
 
-# Direct IDs
-rthumbs --ids 123,456,789 --size 720x720 --format jpg
+# Example with type folders
+echo 1818 > ids.txt
+rthumbs --input ids.txt --size 420x420 --format png --out thumbnails --meta
 
-# Resize after download and add a simple text watermark
-rthumbs --ids 123 --resize 256 --watermark "My Game" --wm-size 24
-
-# Export metadata
-rthumbs --ids 123,456 --meta
+# Example with flat structure
+rthumbs --input ids.txt --size 420x420 --format png --out thumbnails --flat
 ```
 
-## Input file format
-Plain text with one numeric asset ID per line. Empty lines and comments starting with `#` are ignored.
-
-## Roadmap
-- v0.2: Asset name/type detection and type-based folders
-- v0.3: Concurrency tuning flags and rate-limit backoff customization
-- v0.4: Electron GUI (drag & drop), clipboard capture
+## Next Steps
+- Add concurrency control to avoid hitting Roblox rate limits.
+- Implement advanced filename templates with placeholders.
