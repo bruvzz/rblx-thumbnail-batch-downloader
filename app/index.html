@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roblox Thumbnail Batch Downloader</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Roblox Thumbnail Batch Downloader</h1>
+  <form id="downloadForm">
+    <label>Asset IDs (comma-separated or file upload):</label>
+    <input type="text" id="assetIds" placeholder="e.g., 1818, 1234">
+    <input type="file" id="assetFile">
+
+    <label>Thumbnail Size:</label>
+    <select id="size">
+      <option>150x150</option>
+      <option selected>420x420</option>
+      <option>720x720</option>
+    </select>
+
+    <label>Format:</label>
+    <select id="format">
+      <option>png</option>
+      <option>jpg</option>
+    </select>
+
+    <label>Output Folder:</label>
+    <input type="text" id="out" placeholder="thumbnails">
+
+    <label>Filename Template:</label>
+    <input type="text" id="template" value="{type}/{name}-{id}.{ext}">
+
+    <label>Flat Structure:</label>
+    <input type="checkbox" id="flat">
+
+    <label>Concurrency:</label>
+    <input type="number" id="concurrency" value="5">
+
+    <button type="submit">Start Download</button>
+  </form>
+
+  <div id="progress"></div>
+
+  <script>
+    const form = document.getElementById('downloadForm');
+    const progressDiv = document.getElementById('progress');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const options = {
+        ids: document.getElementById('assetIds').value,
+        size: document.getElementById('size').value,
+        format: document.getElementById('format').value,
+        out: document.getElementById('out').value,
+        template: document.getElementById('template').value,
+        flat: document.getElementById('flat').checked,
+        concurrency: Number(document.getElementById('concurrency').value),
+      };
+      progressDiv.textContent = 'Downloading...';
+      const result = await window.startDownload(options);
+      progressDiv.textContent = result.success ? 'Download Complete!' : `Error: ${result.error}`;
+    });
+  </script>
+</body>
+</html>
