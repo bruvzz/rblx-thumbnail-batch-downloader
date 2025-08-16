@@ -1,67 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Roblox Thumbnail Batch Downloader</title>
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roblox Thumbnail Batch Downloader</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-  <h1>Roblox Thumbnail Batch Downloader</h1>
-  <form id="downloadForm">
-    <label>Asset IDs (comma-separated or file upload):</label>
-    <input type="text" id="assetIds" placeholder="e.g., 1818, 1234">
-    <input type="file" id="assetFile">
+<body class="dark-theme">
 
-    <label>Thumbnail Size:</label>
-    <select id="size">
-      <option>150x150</option>
-      <option selected>420x420</option>
-      <option>720x720</option>
-    </select>
+  <div class="custom-titlebar">
+    <span class="title">Roblox Thumbnail Batch Downloader</span>
+    <div class="window-buttons">
+      <button class="win-btn minimize" id="minBtn">
+        <svg width="12" height="12" viewBox="0 0 12 12">
+          <rect x="2" y="6" width="8" height="1.5" fill="currentColor"/>
+        </svg>
+      </button>
 
-    <label>Format:</label>
-    <select id="format">
-      <option>png</option>
-      <option>jpg</option>
-    </select>
+      <button class="win-btn maximize" id="maxBtn">
+        <svg width="12" height="12" viewBox="0 0 12 12">
+          <rect x="2" y="2" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </button>
 
-    <label>Output Folder:</label>
-    <input type="text" id="out" placeholder="thumbnails">
+      <button class="win-btn close" id="closeBtn">
+        <svg width="12" height="12" viewBox="0 0 12 12">
+          <line x1="3" y1="3" x2="9" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="9" y1="3" x2="3" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
 
-    <label>Filename Template:</label>
-    <input type="text" id="template" value="{type}/{name}-{id}.{ext}">
+  <div class="container">
+    <button id="settingsBtn" class="hamburger-btn" aria-label="Settings">
+      <span></span><span></span><span></span>
+    </button>
 
-    <label>Flat Structure:</label>
-    <input type="checkbox" id="flat">
+    <div class="card">
+      <h2>Batch Download Thumbnails</h2>
+      <div class="grid">
+        <label class="label">Asset IDs (comma-separated)</label>
+        <input type="text" id="assetIds" placeholder="e.g., 1818,1234">
 
-    <label>Concurrency:</label>
-    <input type="number" id="concurrency" value="5">
+        <label class="label">Thumbnail Size</label>
+        <div class="custom-dropdown" id="sizeDropdown">
+          <button class="dropdown-toggle" aria-expanded="false">
+            <span class="selected-value">420x420</span>
+            <svg class="dropdown-icon" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <polyline points="3 5 6 8 9 5"></polyline>
+            </svg>
+          </button>
+          <ul class="dropdown-menu">
+            <li data-value="150x150">150x150</li>
+            <li data-value="420x420" class="selected">420x420</li>
+            <li data-value="720x720">720x720</li>
+          </ul>
+        </div>
 
-    <button type="submit">Start Download</button>
-  </form>
+        <label class="label">Format</label>
+        <div class="custom-dropdown" id="formatDropdown">
+          <button class="dropdown-toggle" aria-expanded="false">
+            <span class="selected-value">png</span>
+            <svg class="dropdown-icon" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <polyline points="3 5 6 8 9 5"></polyline>
+            </svg>
+          </button>
+          <ul class="dropdown-menu">
+            <li data-value="png" class="selected">png</li>
+            <li data-value="jpg">jpg</li>
+          </ul>
+        </div>
 
-  <div id="progress"></div>
+        <label class="label">Output Folder</label>
+        <input type="text" id="out" value="thumbnails" disabled>
 
-  <script>
-    const form = document.getElementById('downloadForm');
-    const progressDiv = document.getElementById('progress');
+        <div class="toggle-wrapper">
+          <span class="label">Flat Structure</span>
+          <label class="switch">
+            <input type="checkbox" id="flat">
+            <span class="slider"></span>
+          </label>
+        </div>
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const options = {
-        ids: document.getElementById('assetIds').value,
-        size: document.getElementById('size').value,
-        format: document.getElementById('format').value,
-        out: document.getElementById('out').value,
-        template: document.getElementById('template').value,
-        flat: document.getElementById('flat').checked,
-        concurrency: Number(document.getElementById('concurrency').value),
-      };
-      progressDiv.textContent = 'Downloading...';
-      const result = await window.startDownload(options);
-      progressDiv.textContent = result.success ? 'Download Complete!' : `Error: ${result.error}`;
-    });
-  </script>
+        <button class="btn" id="startDownload">Start Download</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-panel" id="settingsPanel">
+    <h3>Settings</h3>
+    <div class="toggle-wrapper">
+      <span class="label">Always on Top</span>
+      <label class="switch">
+        <input type="checkbox" id="topmostToggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
 </body>
 </html>
