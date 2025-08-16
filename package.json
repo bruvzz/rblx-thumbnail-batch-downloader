@@ -8,29 +8,43 @@
     "make": "electron-forge make",
     "package": "electron-forge package"
   },
-  "keywords": ["roblox", "thumbnail", "batch", "downloader", "electron"],
-  "author": "Your Name",
+  "keywords": [
+    "roblox",
+    "thumbnail",
+    "batch",
+    "downloader",
+    "electron"
+  ],
+  "author": "bruvzz",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^26.0.0",
     "@electron-forge/cli": "^6.0.0",
+    "@electron-forge/maker-deb": "^6.0.0",
+    "@electron-forge/maker-rpm": "^6.0.0",
     "@electron-forge/maker-squirrel": "^6.0.0",
     "@electron-forge/maker-zip": "^6.0.0",
-    "@electron-forge/maker-deb": "^6.0.0",
-    "@electron-forge/maker-rpm": "^6.0.0"
+    "electron": "^26.6.10"
   },
   "dependencies": {
-    "axios": "^1.7.2",
+    "axios": "^1.11.0",
     "cli-progress": "^3.12.0",
     "sanitize-filename": "^1.6.3"
   },
   "config": {
     "forge": {
       "makers": [
-        { "name": "@electron-forge/maker-squirrel" },
-        { "name": "@electron-forge/maker-zip" },
-        { "name": "@electron-forge/maker-deb" },
-        { "name": "@electron-forge/maker-rpm" }
+        {
+          "name": "@electron-forge/maker-squirrel"
+        },
+        {
+          "name": "@electron-forge/maker-zip"
+        },
+        {
+          "name": "@electron-forge/maker-deb"
+        },
+        {
+          "name": "@electron-forge/maker-rpm"
+        }
       ]
     }
   }
