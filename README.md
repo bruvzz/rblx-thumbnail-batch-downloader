@@ -8,7 +8,7 @@ An Electron application to batch download Roblox thumbnails.
 - Multiple format options
 
 ## Installation
-Download the latest release from the [Releases page](https://github.com/bruvzz/roblox-thumbnail-batch-downloader/releases).
+Download the latest release from the [Releases page](https://github.com/bruvzz/rblx-thumbnail-batch-downloader/releases).
 
 ## Development
 ```bash
