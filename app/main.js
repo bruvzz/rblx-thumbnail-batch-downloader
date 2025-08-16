@@ -1,11 +1,12 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-const { startDownload } = require('./utils');
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 773,
+    height: 430,
+    frame: false,
+    resizable: false,
     webPreferences: {
       preload: path.join(__dirname, 'renderer.js'),
       nodeIntegration: true,
@@ -13,16 +14,23 @@ function createWindow() {
     },
   });
 
-  win.loadFile('index.html');
+  win.loadFile(path.join(__dirname, 'index.html'));
+  win.setAlwaysOnTop(true);
+
+  ipcMain.on('set-topmost', (event, value) => {
+    win.setAlwaysOnTop(value);
+  });
+
+  ipcMain.on('window-control', (event, action) => {
+    switch (action) {
+      case 'close': win.close(); break;
+      case 'minimize': win.minimize(); break;
+      case 'maximize':
+        if (win.isMaximized()) win.unmaximize();
+        else win.maximize();
+        break;
+    }
+  });
 }
 
 app.whenReady().then(createWindow);
-
-ipcMain.handle('start-download', async (event, options) => {
-  try {
-    const result = await startDownload(options);
-    return { success: true, result };
-  } catch (err) {
-    return { success: false, error: err.message };
-  }
-});
